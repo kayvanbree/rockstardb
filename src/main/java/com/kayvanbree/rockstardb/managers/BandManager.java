@@ -41,9 +41,8 @@ public class BandManager {
 
     public Band update(long id, Band band) throws Exception {
         Optional<Band> existing = bandRepository.findById(id);
-        if (existing.isPresent() && id == band.getId()) {
-            Band updated = existing.get();
-            updated.setName(band.getName());
+        if (existing.isPresent()) {
+            band.setId(id);
             return bandRepository.save(band);
         } else {
             throw new Exception("Band not found");
