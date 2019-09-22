@@ -23,9 +23,9 @@ public class TrackManager {
     }
 
     public Track insert(Track track) throws Exception {
-        Optional<Track> existing = trackRepository.findFirstByName(track.getName());
+        Optional<Track> existing = trackRepository.findById(track.getId());
         if (existing.isPresent()) {
-            throw new Exception("Already exists");
+            throw new Exception(track.getName() + " (" + track.getId() + ") already exists");
         }
         return trackRepository.save(track);
     }

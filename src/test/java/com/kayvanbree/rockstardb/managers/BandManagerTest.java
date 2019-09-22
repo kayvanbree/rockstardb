@@ -22,11 +22,11 @@ public class BandManagerTest {
         BandRepository bandRepository = mock(BandRepository.class);
         bandManager = new BandManager(bandRepository);
 
-        b1 = new Band("Tumbler's Edge");
-        b2 = new Band("Opiate Sun");
-        b3 = new Band("Jimi Hendrix");
-        b4 = new Band("Menschwalsch");
-        b5 = new Band("Lalallaa");
+        b1 = new Band(1, "Tumbler's Edge");
+        b2 = new Band(2, "Opiate Sun");
+        b3 = new Band(3, "Jimi Hendrix");
+        b4 = new Band(4, "Menschwalsch");
+        b5 = new Band(5, "Lalallaa");
 
         bandList = new ArrayList<>();
         bandList.add(b1);
