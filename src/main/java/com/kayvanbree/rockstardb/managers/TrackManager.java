@@ -42,7 +42,7 @@ public class TrackManager {
     public Track update(long id, Track track) throws Exception {
         Optional<Track> existing = trackRepository.findById(id);
         if (existing.isPresent()) {
-            track.setId(id);
+            track.setId(track.getId());
             return trackRepository.save(track);
         } else {
             throw new Exception("Track not found");

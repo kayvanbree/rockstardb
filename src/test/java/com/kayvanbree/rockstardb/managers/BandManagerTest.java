@@ -1,7 +1,6 @@
 package com.kayvanbree.rockstardb.managers;
 
 import com.kayvanbree.rockstardb.models.Band;
-import com.kayvanbree.rockstardb.repositories.BandRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +18,7 @@ public class BandManagerTest {
 
     @Before
     public void setup() throws Exception {
-        BandRepository bandRepository = mock(BandRepository.class);
+        com.kayvanbree.rockstardb.repositories.BandRepository bandRepository = mock(com.kayvanbree.rockstardb.repositories.BandRepository.class);
         bandManager = new BandManager(bandRepository);
 
         b1 = new Band(1, "Tumbler's Edge");

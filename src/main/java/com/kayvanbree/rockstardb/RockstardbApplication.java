@@ -1,11 +1,10 @@
 package com.kayvanbree.rockstardb;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kayvanbree.rockstardb.managers.BandManager;
-import com.kayvanbree.rockstardb.managers.TrackManager;
 import com.kayvanbree.rockstardb.models.Band;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kayvanbree.rockstardb.models.Track;
+import com.kayvanbree.rockstardb.repositories.BandRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,14 +21,14 @@ public class RockstardbApplication {
 	}
 
 	@Bean
-	CommandLineRunner runner(BandManager bandManager, TrackManager trackManager) {
+	CommandLineRunner runner(BandRepository bandRepository, com.kayvanbree.rockstardb.repositories.TrackRepository trackRepository) {
 		return args -> {
-			feedBands(bandManager);
-			feedTracks(trackManager);
+			feedBands(bandRepository);
+			feedTracks(trackRepository);
 		};
 	}
 
-	private void feedBands(BandManager bandManager) {
+	private void feedBands(BandRepository bandRepository) {
 		// read json and write to db
 		ObjectMapper mapper = new ObjectMapper();
 		TypeReference<List<Band>> typeReference = new TypeReference<List<Band>>(){};
@@ -37,7 +36,7 @@ public class RockstardbApplication {
 		try {
             List<Band> bands = mapper.readValue(inputStream,typeReference);
             for(int i = 0; i < bands.size(); i++) {
-                bandManager.insert(bands.get(i));
+                bandRepository.save(bands.get(i));
             }
             System.out.println("Bands Saved!");
         } catch (Exception e){
@@ -45,7 +44,7 @@ public class RockstardbApplication {
         }
 	}
 
-	private void feedTracks(TrackManager trackManager) {
+	private void feedTracks(com.kayvanbree.rockstardb.repositories.TrackRepository trackRepository) {
 		// read json and write to db
 		ObjectMapper mapper = new ObjectMapper();
 		TypeReference<List<Track>> typeReference = new TypeReference<List<Track>>(){};
@@ -53,7 +52,7 @@ public class RockstardbApplication {
 		try {
             List<Track> tracks = mapper.readValue(inputStream,typeReference);
             for(int i = 0; i < tracks.size(); i++) {
-                trackManager.insert(tracks.get(i));
+                trackRepository.save(tracks.get(i));
             }
             System.out.println("Tracks Saved!");
         } catch (Exception e){

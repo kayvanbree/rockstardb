@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Component
 public class BandManager {
-    private final BandRepository bandRepository;
+    private final com.kayvanbree.rockstardb.repositories.BandRepository bandRepository;
 
     public BandManager(BandRepository bandRepository) {
         this.bandRepository = bandRepository;
