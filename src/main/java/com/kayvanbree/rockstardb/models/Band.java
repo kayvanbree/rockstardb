@@ -13,6 +13,10 @@ public class Band {
 
     private String name;
 
+    public Band(String name) {
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }
