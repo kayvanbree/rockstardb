@@ -1,0 +1,39 @@
+on: push
+name: Build and publish
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Install
+      uses: LucaFeger/action-maven-cli@master
+      with:
+        args: clean package
+    - uses: actions/upload-artifact@master
+      with:
+        name: target
+        path: ./target
+
+  dockerize:
+    name: Dockerize
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/download-artifact@master
+      with:
+        name: target
+        path: ./target
+    - name: Docker login
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
+    - name: Docker build
+      run: |
+        docker build -t scubakay/rockstardb:latest .
+    - name: Docker deploy
+      run: |
+        docker push scubakay/rockstardb:latest
