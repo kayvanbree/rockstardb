@@ -22,7 +22,7 @@ public class BandManagerTest {
         bandManager = new BandManager(bandRepository);
 
         b1 = new Band(1, "Tumbler's Edge");
-        b2 = new Band(2, "Opiate Sun");
+        b2 = new Band(2, "Opiat Sun");
         b3 = new Band(3, "Jimi Hendrix");
         b4 = new Band(4, "Menschwalsch");
         b5 = new Band(5, "Lalallaa");
@@ -30,10 +30,11 @@ public class BandManagerTest {
         bandList = new ArrayList<>();
         bandList.add(b1);
         bandList.add(b2);
+        bandList.add(b3);
 
         when(bandRepository.findAll()).thenReturn(bandList);
-        when(bandRepository.findById(1L)).thenReturn(Optional.of(b1));
-        when(bandRepository.findById(2L)).thenReturn(Optional.of(b2));
+        when(bandRepository.findById(any(Long.class))).thenReturn(Optional.of(b1));
+        when(bandRepository.save(any())).thenReturn(b1);
     }
 
     @Test
@@ -55,6 +56,16 @@ public class BandManagerTest {
 
     @Test
     public void updateBand() throws Exception {
-        bandManager.update(1L, b1);
+        // Oops, got the name wrong in the @Before...
+        Band band = new Band(2, "Opiate Sun");
+        Band result = bandManager.update(1L, band);
+        assertEquals(b1, result);
+    }
+
+    @Test
+    public void insertBand() throws Exception {
+        bandManager.insert(b4);
+        Band band = bandManager.getBand(3L).get();
+        assertEquals(b1, band);
     }
 }

@@ -1,6 +1,16 @@
 on: push
 name: Build and publish
 jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Test
+      uses: LucaFeger/action-maven-cli@master
+      with:
+        args: test
+
   build:
     name: Build
     runs-on: ubuntu-latest
